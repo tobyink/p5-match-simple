@@ -3,6 +3,8 @@
 `match-simple`
 	perl_version_from m`match::simple`;
 	version_from      m`match::simple`;
-	readme_from       m`match::simple` ;
-	.
-
+	readme_from       m`match::simple`;
+	requires          p`Exporter::TypeTiny 0.004`;
+	requires          p`List::MoreUtils 0`;
+	requires          p`Sub::Infix 0.001`;
+.
