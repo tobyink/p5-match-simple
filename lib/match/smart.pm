@@ -47,7 +47,7 @@ sub match
 		return any { exists $a->{$_} } @$b if ref($a) eq q(HASH);
 		return any { $_ =~ $a } @$b        if ref($a) eq q(Regexp);
 		return any { !defined($_) } @$b    if !defined($a);
-		return any { match($a, $_, $seen) } @$b;
+		return any { match($a, $_) } @$b;
 	}
 	
 	if (ref($b) eq q(HASH))

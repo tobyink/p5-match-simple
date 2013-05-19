@@ -125,7 +125,7 @@ while (<DATA>) {
 				fail($test_name);
 				print "# \$\@ was: $@\n";
 			} else {
-				ok( ($yn =~ /!/ xor $res), $test_name );
+				ok( ($yn =~ /!/ xor $res), $test_name ) or diag sprintf '%s ~~ %s', explain(eval($left), eval($right));
 			}
 		}
 		
