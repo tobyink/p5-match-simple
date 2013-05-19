@@ -1,0 +1,6 @@
+# This file acts as the project's changelog.
+
+`match-simple 0.001 cpan:TOBYINK`
+	issued  2013-05-19;
+	label   "Initial release".
+

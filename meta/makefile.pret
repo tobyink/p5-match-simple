@@ -1,0 +1,8 @@
+# This file provides instructions for packaging.
+
+`match-simple`
+	perl_version_from m`match::simple`;
+	version_from      m`match::simple`;
+	readme_from       m`match::simple` ;
+	.
+
