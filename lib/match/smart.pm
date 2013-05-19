@@ -4,8 +4,9 @@ use 5.008001;
 use strict;
 use warnings;
 
+use B qw();
 use List::MoreUtils qw(any all);
-use Scalar::Util qw(blessed looks_like_number);
+use Scalar::Util qw(blessed looks_like_number refaddr);
 use Sub::Infix qw(infix);
 
 BEGIN {
@@ -21,13 +22,16 @@ sub match
 {
 	no warnings qw(uninitialized numeric);
 	
-	my ($a, $b) = @_;
+	my ($a, $b, $seen) = @_;
 	
 	return(!defined $a)                    if !defined($b);
 	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
 	return !!$b->MATCH($a)                 if blessed($b) && $b->can("MATCH");
 	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Overloaded($b) };
-	
+
+	$seen ||= {};
+	return !!1 if $seen->{refaddr($b)}++;
+
 	if (ref($b) eq q(ARRAY))
 	{
 		if (ref($a) eq q(ARRAY))
@@ -35,7 +39,7 @@ sub match
 			return !!0 unless @$a == @$b;
 			for my $i (0 .. $#$a)
 			{
-				return !!0 unless match($a->[$i], $b->[$i]);
+				return !!0 unless match($a->[$i], $b->[$i], $seen);
 			}
 			return !!1;
 		}
@@ -43,7 +47,7 @@ sub match
 		return any { exists $a->{$_} } @$b if ref($a) eq q(HASH);
 		return any { $_ =~ $a } @$b        if ref($a) eq q(Regexp);
 		return any { !defined($_) } @$b    if !defined($a);
-		return any { match($a, $_) } @$b;
+		return any { match($a, $_, $seen) } @$b;
 	}
 	
 	if (ref($b) eq q(HASH))
@@ -72,9 +76,18 @@ sub match
 	return !!$a->check($b)                 if blessed($a) && $a->isa("Type::Tiny");
 	return !!$a->MATCH($b)                 if blessed($a) && $a->can("MATCH");
 	return eval 'no warnings; !!($a~~$b)'  if blessed($a) && $] >= 5.010 && do { require overload; overload::Overloaded($a) };
-	return $a == $b                        if looks_like_number($b);
 	return !defined($b)                    if !defined($a);
+	return $a == $b                        if is_number($b);
+	return $a == $b                        if is_number($a) && looks_like_number($b);
 	return $a eq $b;
+}
+
+sub is_number
+{
+	my $value = shift;
+	return if ref $value;
+	my $flags = B::svref_2object(\$value)->FLAGS;
+	$flags & ( B::SVp_IOK | B::SVp_NOK ) and !( $flags & B::SVp_POK );
 }
 
 *M = &infix(\&match);
