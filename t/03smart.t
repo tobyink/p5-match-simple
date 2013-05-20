@@ -47,7 +47,7 @@ tie my %tied_hash, 'Tie::StdHash';
 
 {
 	package Test::Object::WithOverload;
-	sub new { bless { key => ($_[1] // 'magic') } }
+	sub new { bless { key => (defined $_[1] ? $_[1] : 'magic') } }
 	sub MATCH {
 		my %hash = %{ $_[0] };
 		if ($_[2]) { # arguments reversed ?
