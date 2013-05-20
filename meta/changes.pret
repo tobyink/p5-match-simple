@@ -12,3 +12,9 @@
 		item "Better parity with Perl's smartmatch operator."^^Bugfix;
 	].
 
+`match-simple 0.003 cpan:TOBYINK`
+	issued  2013-05-20;
+	changeset [
+		item "Skip smartmatch test cases on archaic Perl."^^Bugfix;
+	].
+
