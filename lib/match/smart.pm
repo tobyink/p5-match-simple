@@ -129,6 +129,24 @@ match::smart provides a simple match operator C<< |M| >> that acts like
 more or less identically to the (as of Perl 5.18) deprecated smart match
 operator.
 
+If you don't like the crazy C<Sub::Infix> operator, you can alternatively
+export a more normal function:
+
+   use v5.10;
+   use match::smart qw(match);
+   
+   if (match($this, $that))
+   {
+      say "$this matches $that";
+   }
+
+=head2 Differences with ~~
+
+There were major changes to smart match between 5.10.0 and 5.10.1. This
+module attempts to emulate the behaviour of the operator in more recent
+versions of Perl. In particular, 5.18.0 (minus the warnings). Divergences
+not noted below should be considered bugs.
+
 While the real smart match operator implicitly takes references to operands
 that are hashes or arrays, match::smart's operator does not.
 
@@ -146,16 +164,10 @@ Similarly:
    "foo" |M| /foo/    # no worky!
    "foo" |M| qr/foo/  # do this instead
 
-If you don't like the crazy C<Sub::Infix> operator, you can alternatively
-export a more normal function:
-
-   use v5.10;
-   use match::smart qw(match);
-   
-   if (match($this, $that))
-   {
-      say "$this matches $that";
-   }
+match::smart treats the C<MATCH> method on blessed objects (if it exists)
+like an overloaded C<< ~~ >>. This is for compatibility with L<match::simple>,
+and for compatibility with pre-5.10 Perls that don't allow overloading
+C<< ~~ >>.
 
 =begin trustme
 
