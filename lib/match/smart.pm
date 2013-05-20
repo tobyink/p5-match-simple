@@ -28,6 +28,12 @@ sub match
 	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
 	return !!$b->MATCH($a)                 if blessed($b) && $b->can("MATCH");
 	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
+	
+	if (blessed($b) and not $b->isa("Regexp"))
+	{
+		require Carp;
+		Carp::croak("Smart matching a non-overloaded object breaks encapsulation");
+	}	
 
 	$seen ||= {};
 	return refaddr($a)==refaddr($b) if $seen->{refaddr($b)}++;
@@ -81,12 +87,6 @@ sub match
 	return !defined($b)                    if !defined($a);
 	return $a == $b                        if is_number($b);
 	return $a == $b                        if is_number($a) && looks_like_number($b);
-	
-	if (blessed($a) or blessed($b))
-	{
-		require Carp;
-		Carp::croak("Smart matching a non-overloaded object breaks encapsulation");
-	}
 	
 	return $a eq $b;
 }
