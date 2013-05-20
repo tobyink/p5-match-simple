@@ -27,7 +27,7 @@ sub match
 	return(!defined $a)                    if !defined($b);
 	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
 	return !!$b->MATCH($a)                 if blessed($b) && $b->can("MATCH");
-	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Overloaded($b) };
+	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
 
 	$seen ||= {};
 	return refaddr($a)==refaddr($b) if $seen->{refaddr($b)}++;
@@ -77,7 +77,7 @@ sub match
 	
 	return !!$a->check($b)                 if blessed($a) && $a->isa("Type::Tiny");
 	return !!$a->MATCH($b)                 if blessed($a) && $a->can("MATCH");
-	return eval 'no warnings; !!($a~~$b)'  if blessed($a) && $] >= 5.010 && do { require overload; overload::Overloaded($a) };
+	return eval 'no warnings; !!($a~~$b)'  if blessed($a) && $] >= 5.010 && do { require overload; overload::Method($a, "~~") };
 	return !defined($b)                    if !defined($a);
 	return $a == $b                        if is_number($b);
 	return $a == $b                        if is_number($a) && looks_like_number($b);
