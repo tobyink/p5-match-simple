@@ -44,18 +44,20 @@ sub match
 			return !!1;
 		}
 		
-		return any { exists $a->{$_} } @$b if ref($a) eq q(HASH);
-		return any { $_ =~ $a } @$b        if ref($a) eq q(Regexp);
-		return any { !defined($_) } @$b    if !defined($a);
+		return any { exists $a->{$_} } @$b  if ref($a) eq q(HASH);
+		return any { $_ =~ $a } @$b         if ref($a) eq q(Regexp);
+		return any { !defined($_) } @$b     if !defined($a);
 		return any { match($a, $_) } @$b;
 	}
 	
 	if (ref($b) eq q(HASH))
 	{
-		return match([sort keys %$a], [sort keys %$b]) if ref($a) eq q(HASH);
-		return any { exists $b->{$_} } @$a             if ref($a) eq q(ARRAY);
-		return any { $_ =~ $a } keys %$b               if ref($a) eq q(Regexp);
-		return !!0                                     if !defined($a);
+		return match([sort map "$_", keys %$a], [sort map "$_", keys %$b])
+			if ref($a) eq q(HASH);
+		
+		return any { exists $b->{$_} } @$a  if ref($a) eq q(ARRAY);
+		return any { $_ =~ $a } keys %$b    if ref($a) eq q(Regexp);
+		return !!0                          if !defined($a);
 		return exists $b->{$a};
 	}
 	
@@ -79,6 +81,13 @@ sub match
 	return !defined($b)                    if !defined($a);
 	return $a == $b                        if is_number($b);
 	return $a == $b                        if is_number($a) && looks_like_number($b);
+	
+	if (blessed($a) or blessed($b))
+	{
+		require Carp;
+		Carp::croak("Smart matching a non-overloaded object breaks encapsulation");
+	}
+	
 	return $a eq $b;
 }
 
