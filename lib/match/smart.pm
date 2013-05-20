@@ -26,7 +26,7 @@ sub match
 	
 	return(!defined $a)                    if !defined($b);
 	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
-	return !!$b->MATCH($a)                 if blessed($b) && $b->can("MATCH");
+	return !!$b->MATCH($a, 1)              if blessed($b) && $b->can("MATCH");
 	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
 	
 	if (blessed($b) and not $b->isa("Regexp"))

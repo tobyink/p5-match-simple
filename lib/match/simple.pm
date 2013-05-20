@@ -29,7 +29,7 @@ sub match
 	return do{ local $_ = $a; !!$b->($a) } if ref($b) eq q(CODE);
 	return any { match($a, $_) } @$b       if ref($b) eq q(ARRAY);
 	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
-	return !!$b->MATCH($a)                 if blessed($b) && $b->can("MATCH");
+	return !!$b->MATCH($a, 1)              if blessed($b) && $b->can("MATCH");
 	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
 	
 	require Carp;

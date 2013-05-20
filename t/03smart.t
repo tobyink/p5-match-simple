@@ -23,9 +23,7 @@ the same terms as the Perl 5 programming language system itself.
 use strict;
 use warnings;
 no warnings 'uninitialized';
-no if $] >= 5.018, warnings => 'experimental::smartmatch';
 use Test::More;
-use Test::Requires "5.010001";
 
 use match::smart qw(match);
 
@@ -62,7 +60,7 @@ tie my %tied_hash, 'Tie::StdHash';
 {
 	package Test::Object::WithOverload;
 	sub new { bless { key => ($_[1] // 'magic') } }
-	use overload '~~' => sub {
+	sub MATCH {
 		my %hash = %{ $_[0] };
 		if ($_[2]) { # arguments reversed ?
 			return $_[1] eq reverse $hash{key};

@@ -7,5 +7,4 @@
 	requires          p`Exporter::TypeTiny 0.004`;
 	requires          p`List::MoreUtils 0`;
 	requires          p`Sub::Infix 0.001`;
-	test_requires     p`Test::Requires 0.06`;
 .
