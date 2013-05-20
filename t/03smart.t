@@ -25,6 +25,7 @@ use warnings;
 no warnings 'uninitialized';
 no if $] >= 5.018, warnings => 'experimental::smartmatch';
 use Test::More;
+use Test::Requires "5.010001";
 
 use match::smart qw(match);
 
