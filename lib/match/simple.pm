@@ -10,7 +10,7 @@ use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::simple::AUTHORITY = 'cpan:TOBYINK';
-	$match::simple::VERSION   = '0.001';
+	$match::simple::VERSION   = '0.002';
 }
 
 use base "Exporter::TypeTiny";

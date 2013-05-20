@@ -11,7 +11,7 @@ use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::smart::AUTHORITY = 'cpan:TOBYINK';
-	$match::smart::VERSION   = '0.001';
+	$match::smart::VERSION   = '0.002';
 }
 
 use base "Exporter::TypeTiny";

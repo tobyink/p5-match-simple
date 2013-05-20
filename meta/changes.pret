@@ -4,3 +4,11 @@
 	issued  2013-05-19;
 	label   "Initial release".
 
+`match-simple 0.002 cpan:TOBYINK`
+	issued  2013-05-20;
+	changeset [
+		item "Bundle tests based on Perl's tests for the smartmatch operator."^^Packaging;
+		item "Proper checks for overloaded ~~."^^Bugfix;
+		item "Better parity with Perl's smartmatch operator."^^Bugfix;
+	].
+
