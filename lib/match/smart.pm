@@ -30,7 +30,7 @@ sub match
 	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Overloaded($b) };
 
 	$seen ||= {};
-	return !!1 if $seen->{refaddr($b)}++;
+	return refaddr($a)==refaddr($b) if $seen->{refaddr($b)}++;
 
 	if (ref($b) eq q(ARRAY))
 	{
