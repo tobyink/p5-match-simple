@@ -33,11 +33,11 @@ sub match
 	{
 		require Carp;
 		Carp::croak("Smart matching a non-overloaded object breaks encapsulation");
-	}	
-
+	}
+	
 	$seen ||= {};
 	return refaddr($a)==refaddr($b) if $seen->{refaddr($b)}++;
-
+	
 	if (ref($b) eq q(ARRAY))
 	{
 		if (ref($a) eq q(ARRAY))
@@ -85,13 +85,13 @@ sub match
 	return !!$a->MATCH($b)                 if blessed($a) && $a->can("MATCH");
 	return eval 'no warnings; !!($a~~$b)'  if blessed($a) && $] >= 5.010 && do { require overload; overload::Method($a, "~~") };
 	return !defined($b)                    if !defined($a);
-	return $a == $b                        if is_number($b);
-	return $a == $b                        if is_number($a) && looks_like_number($b);
+	return $a == $b                        if _is_number($b);
+	return $a == $b                        if _is_number($a) && looks_like_number($b);
 	
 	return $a eq $b;
 }
 
-sub is_number
+sub _is_number
 {
 	my $value = shift;
 	return if ref $value;
@@ -134,6 +134,17 @@ that are hashes or arrays, match::smart's operator does not.
 
    @foo ~~ %bar       # means: \@foo ~~ \%bar
    @foo |M| %bar      # means: scalar(@foo) |M| scalar(%bar)
+
+If you want the C<< \@foo ~~ \%bar >> behaviour, you need to add the
+backslashes yourself:
+
+   \@foo |M| \%bar
+
+Similarly:
+
+   "foo" ~~  /foo/    # works
+   "foo" |M| /foo/    # no worky!
+   "foo" |M| qr/foo/  # do this instead
 
 If you don't like the crazy C<Sub::Infix> operator, you can alternatively
 export a more normal function:
