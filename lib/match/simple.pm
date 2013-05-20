@@ -112,7 +112,7 @@ If any other value appears on the right hand side, the operator will croak.
 
 =back
 
-If you don't like the crazy C<Sub::Infix> operator, you can alternatively
+If you don't like the crazy L<Sub::Infix> operator, you can alternatively
 export a more normal function:
 
    use v5.10;

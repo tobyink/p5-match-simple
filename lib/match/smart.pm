@@ -128,7 +128,7 @@ match::smart - clone of smartmatch operator
 match::smart provides a match operator C<< |M| >> that acts like more or
 less identically to the (as of Perl 5.18) deprecated smart match operator.
 
-If you don't like the crazy C<Sub::Infix> operator, you can alternatively
+If you don't like the crazy L<Sub::Infix> operator, you can alternatively
 export a more normal function:
 
    use v5.10;
