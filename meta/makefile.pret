@@ -1,6 +1,7 @@
 # This file provides instructions for packaging.
 
 `match-simple`
-	deps:runtime-requires [ deps:on "Exporter::Tiny 0.026"^^deps:CpanId ];
-	deps:runtime-requires [ deps:on "List::MoreUtils 0"^^deps:CpanId ];
-	deps:runtime-requires [ deps:on "Sub::Infix 0.001"^^deps:CpanId ].
+	deps:test-requirement    [ deps:on "Test::More 0.96"^^deps:CpanId ];
+	deps:runtime-requirement [ deps:on "Exporter::Tiny 0.026"^^deps:CpanId ];
+	deps:runtime-requirement [ deps:on "List::MoreUtils 0"^^deps:CpanId ];
+	deps:runtime-requirement [ deps:on "Sub::Infix 0.001"^^deps:CpanId ].
