@@ -24,3 +24,10 @@
 		item "Further fix smartmatch test cases on archaic Perl."^^Bugfix;
 	].
 
+`match-simple 0.005 cpan:TOBYINK`
+	issued  2013-09-28;
+	changeset [
+		item "use Dist::Inkt"^^Packaging;
+		item "use Exporter::Tiny"^^Update;
+	].
+
