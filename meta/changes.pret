@@ -31,7 +31,7 @@
 		item "use Exporter::Tiny"^^Update;
 	].
 
-`match-simple 0.005 cpan:TOBYINK`
+`match-simple 0.006 cpan:TOBYINK`
 	issued  2013-09-29;
 	changeset [
 		item "Fix dependencies."^^Packaging;
