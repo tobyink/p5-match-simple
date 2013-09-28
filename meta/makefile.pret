@@ -1,10 +1,6 @@
 # This file provides instructions for packaging.
 
 `match-simple`
-	perl_version_from m`match::simple`;
-	version_from      m`match::simple`;
-	readme_from       m`match::simple`;
-	requires          p`Exporter::Tiny 0.026`;
-	requires          p`List::MoreUtils 0`;
-	requires          p`Sub::Infix 0.001`;
-.
+	deps:runtime-requires [ deps:on "Exporter::Tiny 0.026"^^deps:CpanId ];
+	deps:runtime-requires [ deps:on "List::MoreUtils 0"^^deps:CpanId ];
+	deps:runtime-requires [ deps:on "Sub::Infix 0.001"^^deps:CpanId ].
