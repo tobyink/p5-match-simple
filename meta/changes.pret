@@ -18,3 +18,9 @@
 		item "Fix smartmatch test cases on archaic Perl."^^Bugfix;
 	].
 
+`match-simple 0.004 cpan:TOBYINK`
+	issued  2013-05-20;
+	changeset [
+		item "Further fix smartmatch test cases on archaic Perl."^^Bugfix;
+	].
+

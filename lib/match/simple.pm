@@ -4,16 +4,17 @@ use 5.008001;
 use strict;
 use warnings;
 
+use Exporter::Tiny;
 use List::MoreUtils qw(any);
 use Scalar::Util qw(blessed);
 use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::simple::AUTHORITY = 'cpan:TOBYINK';
-	$match::simple::VERSION   = '0.003';
+	$match::simple::VERSION   = '0.004';
 }
 
-use base "Exporter::TypeTiny";
+our @ISA       = qw( Exporter::Tiny );
 our @EXPORT    = qw( M );
 our @EXPORT_OK = qw( match );
 
@@ -140,7 +141,7 @@ L<http://rt.cpan.org/Dist/Display.html?Queue=match-simple>.
 
 L<match::smart>.
 
-This module uses L<Exporter::TypeTiny>.
+This module uses L<Exporter::Tiny>.
 
 =head1 AUTHOR
 

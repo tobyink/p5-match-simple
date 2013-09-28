@@ -5,16 +5,17 @@ use strict;
 use warnings;
 
 use B qw();
+use Exporter::Tiny;
 use List::MoreUtils qw(any all);
 use Scalar::Util qw(blessed looks_like_number refaddr);
 use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::smart::AUTHORITY = 'cpan:TOBYINK';
-	$match::smart::VERSION   = '0.003';
+	$match::smart::VERSION   = '0.004';
 }
 
-use base "Exporter::TypeTiny";
+our @ISA       = qw( Exporter::Tiny );
 our @EXPORT    = qw( M );
 our @EXPORT_OK = qw( match );
 
@@ -185,7 +186,7 @@ L<http://rt.cpan.org/Dist/Display.html?Queue=match-simple>.
 
 L<match::simple>.
 
-This module uses L<Exporter::TypeTiny>.
+This module uses L<Exporter::Tiny>.
 
 =head1 AUTHOR
 
