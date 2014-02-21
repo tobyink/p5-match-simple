@@ -18,6 +18,21 @@ our @ISA       = qw( Exporter::Tiny );
 our @EXPORT    = qw( M );
 our @EXPORT_OK = qw( match );
 
+unless (($ENV{MATCH_SIMPLE_IMPLEMENTATION}||'') =~ /pp/i)
+{
+	eval { require match::simple::XS };
+}
+
+eval( match::simple::XS->can('match') ? <<'XS' : <<'PP' );
+
+sub IMPLEMENTATION () { "XS" }
+
+*match = *match::simple::XS::match;
+
+XS
+
+sub IMPLEMENTATION () { "PP" }
+
 sub match
 {
 	no warnings qw(uninitialized numeric);
@@ -36,6 +51,8 @@ sub match
 	require Carp;
 	Carp::croak("match::simple cannot match anything against: $b");
 }
+
+PP
 
 *M = &infix(\&match);
 
@@ -124,11 +141,37 @@ export a more normal function:
       say "$this matches $that";
    }
 
+If you're making heavy use of this module, then this is probably your best
+option, as it runs significantly faster.
+
+=head2 XS Backend
+
+If you install match::simple::XS, a faster XS-based implementation will be
+used instead of the pure Perl functions. Depending on what sort of match you
+are doing, this is likely to be several times faster. In extreme cases, such
+as matching a string in an arrayref, it can be twenty-five times faster, or
+more. However, where C<< $that >> is a single regexp, it's around 30% slower.
+Overall though, I think the performance improvement is worthwhile.
+
+If you want to take advantage of this speed up, use the C<match> function
+rather than the C<< |M| >> operator. Otherwise all your gains will be lost to
+the slow implementation of operator overloading.
+
+The constant C<< match::simple::IMPLEMENTATION >> tells you which backend
+is currently in use.
+
+=head2 Environment
+
+Setting the C<MATCH_SIMPLE_IMPLEMENTATION> environment variable to "PP"
+encourages match::simple to use the pure Perl backend.
+
 =begin trustme
 
 =item M
 
 =item match
+
+=item IMPLEMENTATION
 
 =end trustme
 
