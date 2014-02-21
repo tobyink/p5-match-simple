@@ -37,3 +37,9 @@
 		item "Fix dependencies."^^Packaging;
 	].
 
+`match-simple 0.007_01 cpan:TOBYINK`
+	issued  2014-02-21;
+	changeset [
+		item "Use match::simple::XS if it's installed."^^Change;
+	].
+
