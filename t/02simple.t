@@ -27,6 +27,8 @@ use Test::Fatal;
 
 use match::simple;
 
+diag(sprintf('implementation: %s', match::simple::IMPLEMENTATION));
+
 my $obj = do {
 	package Local::SomeClass;
 	use overload q[""] => sub { q(XXX) }, fallback => 1;
