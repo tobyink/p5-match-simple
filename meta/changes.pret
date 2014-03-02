@@ -49,3 +49,8 @@
 		item "Improved match::simple test cases."^^Tests;
 	].
 
+`match-simple 0.007_03 cpan:TOBYINK`
+	issued  2014-03-02;
+	changeset [
+		item "Don't do `no overloading` on Perl < 5.10.1 in test cases."^^Tests;
+	].

@@ -38,7 +38,7 @@ my $obj = do {
 sub does_match {
 	my ($a, $b, $name) = @_;
 	my ($as, $bs) = map do {
-		no overloading;
+		no if ($] >= 5.010001), 'overloading';
 		ref($_) ? qq[$_] : defined($_) ? qq["$_"] : q[undef];
 	}, @_;
 	$name ||= "$as matches $bs";
@@ -51,7 +51,7 @@ sub does_match {
 sub doesnt_match {
 	my ($a, $b, $name) = @_;
 	my ($as, $bs) = map do {
-		no overloading;
+		no if ($] >= 5.010001), 'overloading';
 		ref($_) ? qq[$_] : defined($_) ? qq["$_"] : q[undef];
 	}, @_;
 	$name ||= "$as NOT matches $bs";
