@@ -11,7 +11,7 @@ use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::simple::AUTHORITY = 'cpan:TOBYINK';
-	$match::simple::VERSION   = '0.007_01';
+	$match::simple::VERSION   = '0.007_02';
 }
 
 our @ISA       = qw( Exporter::Tiny );

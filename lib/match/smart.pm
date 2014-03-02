@@ -12,7 +12,7 @@ use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::smart::AUTHORITY = 'cpan:TOBYINK';
-	$match::smart::VERSION   = '0.007_01';
+	$match::smart::VERSION   = '0.007_02';
 }
 
 our @ISA       = qw( Exporter::Tiny );

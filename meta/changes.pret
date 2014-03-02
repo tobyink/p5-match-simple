@@ -43,3 +43,9 @@
 		item "Use match::simple::XS if it's installed."^^Change;
 	].
 
+`match-simple 0.007_02 cpan:TOBYINK`
+	issued  2014-03-02;
+	changeset [
+		item "Improved match::simple test cases."^^Tests;
+	].
+
