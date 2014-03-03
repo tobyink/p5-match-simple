@@ -8,7 +8,6 @@ use B qw();
 use Exporter::Tiny;
 use List::MoreUtils qw(any all);
 use Scalar::Util qw(blessed looks_like_number refaddr);
-use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::smart::AUTHORITY = 'cpan:TOBYINK';
@@ -100,7 +99,11 @@ sub _is_number
 	$flags & ( B::SVp_IOK | B::SVp_NOK ) and !( $flags & B::SVp_POK );
 }
 
-*M = &infix(\&match);
+sub _generate_M
+{
+	require Sub::Infix;
+	&Sub::Infix::infix(\&match);
+}
 
 __END__
 

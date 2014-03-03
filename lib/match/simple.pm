@@ -7,7 +7,6 @@ use warnings;
 use Exporter::Tiny;
 use List::MoreUtils qw(any);
 use Scalar::Util qw(blessed);
-use Sub::Infix qw(infix);
 
 BEGIN {
 	$match::simple::AUTHORITY = 'cpan:TOBYINK';
@@ -67,7 +66,11 @@ sub match
 
 PP
 
-*M = &infix(\&match);
+sub _generate_M
+{
+	require Sub::Infix;
+	&Sub::Infix::infix(\&match);
+}
 
 __END__
 
