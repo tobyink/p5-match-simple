@@ -54,3 +54,10 @@
 	changeset [
 		item "Don't do `no overloading` on Perl < 5.10.1 in test cases."^^Tests;
 	].
+
+`match-simple 0.008 cpan:TOBYINK`
+	issued  2014-03-03;
+	changeset [
+		item "Bump recommended version of match::simple::XS to 0.001."^^Packaging;
+		item "Don't use match::simple::XS if it's too old, or is unstable."^^Change;
+	].
