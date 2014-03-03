@@ -18,12 +18,25 @@ our @ISA       = qw( Exporter::Tiny );
 our @EXPORT    = qw( M );
 our @EXPORT_OK = qw( match );
 
+my $xs;
 unless (($ENV{MATCH_SIMPLE_IMPLEMENTATION}||'') =~ /pp/i)
 {
-	eval { require match::simple::XS };
+	eval {
+		require match::simple::XS;
+		match::simple::XS->VERSION(0.001);  # minimum
+		
+		# Unless we're a development version...
+		# Avoid using an unstable version of ::XS
+		unless (match::simple->VERSION =~ /_/)
+		{
+			die if match::simple::XS->VERSION =~ /_/;
+		}
+			
+		$xs = match::simple::XS->can('match');
+	};
 }
 
-eval( match::simple::XS->can('match') ? <<'XS' : <<'PP' );
+eval($xs ? <<'XS' : <<'PP');
 
 sub IMPLEMENTATION () { "XS" }
 
