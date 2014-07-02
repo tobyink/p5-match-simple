@@ -72,6 +72,8 @@ sub _generate_M
 	&Sub::Infix::infix(\&match);
 }
 
+1;
+
 __END__
 
 =pod
