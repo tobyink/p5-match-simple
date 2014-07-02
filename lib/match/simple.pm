@@ -1,11 +1,11 @@
 package match::simple;
 
-use 5.008001;
+use 5.006001;
 use strict;
 use warnings;
 
 use Exporter::Tiny;
-use List::MoreUtils qw(any);
+use List::Util 1.33 qw(any);
 use Scalar::Util qw(blessed);
 
 BEGIN {

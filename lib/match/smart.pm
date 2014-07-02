@@ -1,12 +1,12 @@
 package match::smart;
 
-use 5.008001;
+use 5.006001;
 use strict;
 use warnings;
 
 use B qw();
 use Exporter::Tiny;
-use List::MoreUtils qw(any all);
+use List::Util 1.33 qw(any all);
 use Scalar::Util qw(blessed looks_like_number refaddr);
 
 BEGIN {
@@ -104,6 +104,8 @@ sub _generate_M
 	require Sub::Infix;
 	&Sub::Infix::infix(\&match);
 }
+
+1;
 
 __END__
 
