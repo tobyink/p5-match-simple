@@ -8,4 +8,4 @@
 	deps:runtime-requirement    [ deps:on "List::Util 1.33"^^deps:CpanId ];
 	deps:runtime-requirement    [ deps:on "Scalar::Util"^^deps:CpanId ];
 	deps:runtime-requirement    [ deps:on "perl 5.006001"^^deps:CpanId ];
-	deps:runtime-requirement    [ deps:on "Sub::Infix 0.001"^^deps:CpanId ].
+	deps:runtime-requirement    [ deps:on "Sub::Infix 0.004"^^deps:CpanId ].
