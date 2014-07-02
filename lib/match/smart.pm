@@ -11,7 +11,7 @@ use Scalar::Util qw(blessed looks_like_number refaddr);
 
 BEGIN {
 	$match::smart::AUTHORITY = 'cpan:TOBYINK';
-	$match::smart::VERSION   = '0.008';
+	$match::smart::VERSION   = '0.009';
 }
 
 our @ISA       = qw( Exporter::Tiny );

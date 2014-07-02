@@ -61,3 +61,10 @@
 		item "Bump recommended version of match::simple::XS to 0.001."^^Packaging;
 		item "Don't use match::simple::XS if it's too old, or is unstable."^^Change;
 	].
+
+`match-simple 0.009 cpan:TOBYINK`
+	issued  2014-07-02;
+	changeset [
+		item "Don't load Sub::Infix unless needed."^^Change;
+		item "Backport to Perl 5.6."^^Change;
+	].

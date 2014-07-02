@@ -10,7 +10,7 @@ use Scalar::Util qw(blessed);
 
 BEGIN {
 	$match::simple::AUTHORITY = 'cpan:TOBYINK';
-	$match::simple::VERSION   = '0.008';
+	$match::simple::VERSION   = '0.009';
 }
 
 our @ISA       = qw( Exporter::Tiny );
