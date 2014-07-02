@@ -1,4 +1,7 @@
 language: perl
+env:
+  - MATCH_SIMPLE_IMPLEMENTATION=PP
+  - MATCH_SIMPLE_IMPLEMENTATION=XS
 perl:
   - "5.6.2"
   - "5.8.1"
@@ -14,7 +17,7 @@ perl:
 matrix:
   include:
     - perl: 5.18.2
-      env: COVERAGE=1         # enables coverage+coveralls reporting
+      env: COVERAGE=1 MATCH_SIMPLE_IMPLEMENTATION=PP
 before_install:
   - export DIST_INKT_PROFILE="Dist::Inkt::Profile::TOBYINK"
   - git clone git://github.com/haarg/perl-travis-helper
@@ -22,11 +25,11 @@ before_install:
   - build-perl
   - perl -V
   - build-dist
-  - cd $BUILD_DIR             # $BUILD_DIR is set by the build-dist command
+  - cd $BUILD_DIR
 install:
-  - cpan-install --toolchain  # installs a vaguely recent EUMM, Exporter
-  - cpan-install --deps       # installs prereqs, including recommends
-  - cpan-install --coverage   # installs converage prereqs, if enabled
+  - cpan-install --toolchain
+  - cpan-install --deps
+  - cpan-install --coverage
 before_script:
   - coverage-setup
 script:
