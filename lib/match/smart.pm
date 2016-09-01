@@ -36,7 +36,7 @@ sub match
 	}
 	
 	$seen ||= {};
-	return refaddr($a)==refaddr($b) if $seen->{refaddr($b)}++;
+	return refaddr($a)==refaddr($b) if refaddr($b) && $seen->{refaddr($b)}++;
 	
 	if (ref($b) eq q(ARRAY))
 	{
