@@ -373,6 +373,7 @@ __DATA__
 #  - another array ref
 	[]			[]
 =!	[]			[1]
+=!      ["foo", "bar"]          ["foo", "baz"]
 	[["foo"], ["bar"]]	[qr/o/, qr/a/]
 !	[["foo"], ["bar"]]	[qr/ARRAY/, qr/ARRAY/]
 	["foo", "bar"]		[qr/o/, qr/a/]
