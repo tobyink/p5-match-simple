@@ -76,7 +76,7 @@ my %keyandmore = map { $_ => 0 } @keyandmore;
 my %fooormore = map { $_ => 0 } @fooormore;
 
 # Load and run the tests
-plan tests => 349;
+plan tests => 350;
 
 while (<DATA>) {
 	SKIP: {
@@ -385,6 +385,7 @@ __DATA__
 	$deep1			$deep1
 	$deep1			$deep1
 !	$deep1			$deep2
+!	[1,2]	[1,3]
 
 =	\@nums			\@tied_nums
 =	\@nums			\@tied_nums
