@@ -68,3 +68,13 @@
 		item "Don't load Sub::Infix unless needed."^^Change;
 		item "Backport to Perl 5.6."^^Change;
 	].
+
+`match-simple 0.010 cpan:TOBYINK`
+	issued  2017-01-31;
+	changeset [
+		item [
+			a dcs:Bugfix;
+			label "Fix for arrays of scalars.";
+			dcs:fixes RT#117345;
+		];
+	].
