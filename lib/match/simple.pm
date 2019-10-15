@@ -185,11 +185,15 @@ encourages match::simple to use the pure Perl backend.
 
 =begin trustme
 
+=over
+
 =item M
 
 =item match
 
 =item IMPLEMENTATION
+
+=back
 
 =end trustme
 
