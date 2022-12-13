@@ -47,18 +47,52 @@ sub match {
 	no warnings qw( uninitialized numeric );
 	
 	my ( $a, $b ) = @_;
+	my $method;
 	
 	return !defined $a                      if !defined($b);
 	return $a eq $b                         if !ref($b);
 	return $a =~ $b                         if ref($b) eq q(Regexp);
 	return do { local $_ = $a; !!$b->($a) } if ref($b) eq q(CODE);
 	return any { match( $a, $_ ) } @$b      if ref($b) eq q(ARRAY);
-	return !!$b->check( $a )                if blessed($b) && $b->isa("Type::Tiny");
-	return !!$b->MATCH( $a, 1 )             if blessed($b) && $b->can("MATCH");
-	return eval 'no warnings; !!($a~~$b)'   if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
+	return !!$b->$method( $a, 1 )           if blessed($b) && ( $method = _overloaded_smartmatch( $b ) );
 	
 	require Carp;
 	Carp::croak( "match::simple cannot match anything against: $b" );
+}
+
+unless ( eval 'require re; 1' and exists &re::is_regexp ) {
+	require B;
+	*re::is_regexp = sub {
+		eval { B::svref_2object( $_[0] )->MAGIC->TYPE eq 'r' };
+	};
+}
+
+sub _overloaded_smartmatch {
+	my ( $obj ) = @_;
+	return if re::is_regexp( $obj );
+	
+	if ( $obj->isa( 'Type::Tiny' ) ) {
+		return $obj->can( 'check' );
+	}
+	
+	if ( my $match = $obj->can( 'MATCH' ) ) {
+		return $match;
+	}
+	
+	if ( $] lt '5.010' ) { require MRO::Compat; }
+	else                 { require mro;         }
+	
+	my @mro = @{ mro::get_linear_isa( ref $obj ) };
+	for my $class ( @mro ) {
+		my $name = "$class\::(~~";
+		my $overload = do {
+			no strict 'refs';
+			exists( &$name ) ? \&$name : undef;
+		};
+		return $overload if $overload;
+	}
+	
+	return;
 }
 
 PP
@@ -128,9 +162,8 @@ argument.
 
 =item *
 
-If the right hand side is an object which overloads C<< ~~ >>, then a true
-smart match is performed. (Note: this will return false if your version
-of Perl doesn't have smart match support!)
+If the right hand side is an object which overloads C<< ~~ >>, then this
+will be used.
 
 =item *
 
