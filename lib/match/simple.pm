@@ -21,7 +21,7 @@ my $xs;
 unless (($ENV{MATCH_SIMPLE_IMPLEMENTATION}||'') =~ /pp/i) {
 	eval {
 		require match::simple::XS;
-		match::simple::XS->VERSION(0.001);  # minimum
+		match::simple::XS->VERSION( 0.002 );  # minimum
 		
 		# Unless we're a development version...
 		# Avoid using an unstable version of ::XS
