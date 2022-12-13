@@ -6,8 +6,8 @@ use warnings;
 
 use B qw();
 use Exporter::Tiny;
-use List::Util 1.33 qw(any all);
-use Scalar::Util qw(blessed looks_like_number refaddr);
+use List::Util 1.33 qw( any all );
+use Scalar::Util qw( blessed looks_like_number refaddr );
 
 BEGIN {
 	$match::smart::AUTHORITY = 'cpan:TOBYINK';
@@ -18,92 +18,82 @@ our @ISA       = qw( Exporter::Tiny );
 our @EXPORT    = qw( M );
 our @EXPORT_OK = qw( match );
 
-sub match
-{
-	no warnings qw(uninitialized numeric);
+sub match {
+	no warnings qw( uninitialized numeric );
 	
-	my ($a, $b, $seen) = @_;
+	my ( $a, $b, $seen ) = @_;
 	
-	return(!defined $a)                    if !defined($b);
-	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
-	return !!$b->MATCH($a, 1)              if blessed($b) && $b->can("MATCH");
-	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
+	return !defined $a                     if !defined( $b );
+	return !!$b->check($a)                 if blessed( $b ) && $b->isa( "Type::Tiny" );
+	return !!$b->MATCH($a, 1)              if blessed( $b ) && $b->can( "MATCH" );
+	return eval 'no warnings; !!($a~~$b)'  if blessed( $b ) && $] >= 5.010 && do { require overload; overload::Method( $b, "~~" ) };
 	
-	if (blessed($b) and not $b->isa("Regexp"))
-	{
+	if ( blessed($b) and not $b->isa("Regexp") ) {
 		require Carp;
-		Carp::croak("Smart matching a non-overloaded object breaks encapsulation");
+		Carp::croak( "Smart matching a non-overloaded object breaks encapsulation" );
 	}
 	
 	$seen ||= {};
 	my $refb = refaddr($b);
-	return refaddr($a)==$refb if $refb && $seen->{$refb}++;
+	return refaddr( $a ) == $refb if $refb && $seen->{$refb}++;
 	
-	if (ref($b) eq q(ARRAY))
-	{
-		if (ref($a) eq q(ARRAY))
-		{
+	if ( ref($b) eq q(ARRAY) ) {
+		if ( ref($a) eq q(ARRAY) ) {
 			return !!0 unless @$a == @$b;
-			for my $i (0 .. $#$a)
-			{
-				return !!0 unless match($a->[$i], $b->[$i], $seen);
+			for my $i ( 0 .. $#$a ) {
+				return !!0 unless match( $a->[$i], $b->[$i], $seen );
 			}
 			return !!1;
 		}
 		
-		return any { exists $a->{$_} } @$b  if ref($a) eq q(HASH);
-		return any { $_ =~ $a } @$b         if ref($a) eq q(Regexp);
-		return any { !defined($_) } @$b     if !defined($a);
-		return any { match($a, $_) } @$b;
+		return any { exists $a->{$_} } @$b  if ref( $a ) eq q(HASH);
+		return any { $_ =~ $a } @$b         if ref( $a ) eq q(Regexp);
+		return any { !defined( $_ ) } @$b   if !defined( $a );
+		return any { match( $a, $_ ) } @$b;
 	}
 	
-	if (ref($b) eq q(HASH))
-	{
-		return match([sort map "$_", keys %$a], [sort map "$_", keys %$b])
+	if ( ref($b) eq q(HASH) ) {
+		return match( [ sort map "$_", keys %$a ], [ sort map "$_", keys %$b ] )
 			if ref($a) eq q(HASH);
 		
-		return any { exists $b->{$_} } @$a  if ref($a) eq q(ARRAY);
-		return any { $_ =~ $a } keys %$b    if ref($a) eq q(Regexp);
-		return !!0                          if !defined($a);
+		return any { exists $b->{$_} } @$a  if ref( $a ) eq q(ARRAY);
+		return any { $_ =~ $a } keys %$b    if ref( $a ) eq q(Regexp);
+		return !!0                          if !defined( $a );
 		return exists $b->{$a};
 	}
 	
-	if (ref($b) eq q(CODE))
-	{
-		return all { !!$b->($_) } @$a       if ref($a) eq q(ARRAY);
-		return all { !!$b->($_) } keys %$a  if ref($a) eq q(HASH);
-		return $b->($a);
+	if ( ref($b) eq q(CODE) ) {
+		return all { !!$b->($_) } @$a       if ref( $a ) eq q(ARRAY);
+		return all { !!$b->($_) } keys %$a  if ref( $a ) eq q(HASH);
+		return $b->( $a );
 	}
 	
-	if (ref($b) eq q(Regexp))
-	{
-		return any { $_ =~ $b } @$a       if ref($a) eq q(ARRAY);
-		return any { $_ =~ $b } keys %$a  if ref($a) eq q(HASH);
+	if ( ref($b) eq q(Regexp) ) {
+		return any { $_ =~ $b } @$a       if ref( $a ) eq q(ARRAY);
+		return any { $_ =~ $b } keys %$a  if ref( $a ) eq q(HASH);
 		return $a =~ $b;
 	}
 	
-	return !!$a->check($b)                 if blessed($a) && $a->isa("Type::Tiny");
-	return !!$a->MATCH($b)                 if blessed($a) && $a->can("MATCH");
-	return eval 'no warnings; !!($a~~$b)'  if blessed($a) && $] >= 5.010 && do { require overload; overload::Method($a, "~~") };
-	return !defined($b)                    if !defined($a);
-	return $a == $b                        if _is_number($b);
-	return $a == $b                        if _is_number($a) && looks_like_number($b);
+	return !!$a->check( $b )               if blessed( $a ) && $a->isa( "Type::Tiny" );
+	return !!$a->MATCH( $b )               if blessed( $a ) && $a->can( "MATCH" );
+	return eval 'no warnings; !!($a~~$b)'  if blessed( $a ) && $] >= 5.010 && do { require overload; overload::Method( $a, "~~" ) };
+	return !defined( $b )                  if !defined( $a );
+	return $a == $b                        if _is_number( $b );
+	return $a == $b                        if _is_number( $a ) && looks_like_number( $b );
 	
 	return $a eq $b;
 }
 
-sub _is_number
-{
+sub _is_number {
 	my $value = shift;
 	return if ref $value;
-	my $flags = B::svref_2object(\$value)->FLAGS;
+	my $flags = B::svref_2object( \$value )->FLAGS;
 	$flags & ( B::SVp_IOK | B::SVp_NOK ) and !( $flags & B::SVp_POK );
 }
 
-sub _generate_M
-{
+sub _generate_M {
 	require Sub::Infix;
-	&Sub::Infix::infix(\&match);
+	&Sub::Infix::infix( \&match );
 }
 
 1;
@@ -175,6 +165,10 @@ like an overloaded C<< ~~ >>. This is for compatibility with L<match::simple>,
 and for compatibility with pre-5.10 Perls that don't allow overloading
 C<< ~~ >>.
 
+Note that for objects overloading C<< ~~ >>, match::smart currently falls back
+to using the real Perl C<< ~~ >> operator, and will thus return false on
+versions of Perl too old or too new to provide such an operator.
+
 =begin trustme
 
 =item M
@@ -200,7 +194,7 @@ Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
 
 =head1 COPYRIGHT AND LICENCE
 
-This software is copyright (c) 2013-2014, 2017 by Toby Inkster.
+This software is copyright (c) 2013-2014, 2017, 2022 by Toby Inkster.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

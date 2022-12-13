@@ -5,8 +5,8 @@ use strict;
 use warnings;
 
 use Exporter::Tiny;
-use List::Util 1.33 qw(any);
-use Scalar::Util qw(blessed);
+use List::Util 1.33 qw( any );
+use Scalar::Util qw( blessed );
 
 BEGIN {
 	$match::simple::AUTHORITY = 'cpan:TOBYINK';
@@ -18,19 +18,17 @@ our @EXPORT    = qw( M );
 our @EXPORT_OK = qw( match );
 
 my $xs;
-unless (($ENV{MATCH_SIMPLE_IMPLEMENTATION}||'') =~ /pp/i)
-{
+unless (($ENV{MATCH_SIMPLE_IMPLEMENTATION}||'') =~ /pp/i) {
 	eval {
 		require match::simple::XS;
 		match::simple::XS->VERSION(0.001);  # minimum
 		
 		# Unless we're a development version...
 		# Avoid using an unstable version of ::XS
-		unless (match::simple->VERSION =~ /_/)
-		{
+		unless (match::simple->VERSION =~ /_/) {
 			die if match::simple::XS->VERSION =~ /_/;
 		}
-			
+		
 		$xs = match::simple::XS->can('match');
 	};
 }
@@ -45,31 +43,29 @@ XS
 
 sub IMPLEMENTATION () { "PP" }
 
-sub match
-{
-	no warnings qw(uninitialized numeric);
+sub match {
+	no warnings qw( uninitialized numeric );
 	
-	my ($a, $b) = @_;
+	my ( $a, $b ) = @_;
 	
-	return(!defined $a)                    if !defined($b);
-	return($a eq $b)                       if !ref($b);
-	return($a =~ $b)                       if ref($b) eq q(Regexp);
-	return do{ local $_ = $a; !!$b->($a) } if ref($b) eq q(CODE);
-	return any { match($a, $_) } @$b       if ref($b) eq q(ARRAY);
-	return !!$b->check($a)                 if blessed($b) && $b->isa("Type::Tiny");
-	return !!$b->MATCH($a, 1)              if blessed($b) && $b->can("MATCH");
-	return eval 'no warnings; !!($a~~$b)'  if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
+	return !defined $a                      if !defined($b);
+	return $a eq $b                         if !ref($b);
+	return $a =~ $b                         if ref($b) eq q(Regexp);
+	return do { local $_ = $a; !!$b->($a) } if ref($b) eq q(CODE);
+	return any { match( $a, $_ ) } @$b      if ref($b) eq q(ARRAY);
+	return !!$b->check( $a )                if blessed($b) && $b->isa("Type::Tiny");
+	return !!$b->MATCH( $a, 1 )             if blessed($b) && $b->can("MATCH");
+	return eval 'no warnings; !!($a~~$b)'   if blessed($b) && $] >= 5.010 && do { require overload; overload::Method($b, "~~") };
 	
 	require Carp;
-	Carp::croak("match::simple cannot match anything against: $b");
+	Carp::croak( "match::simple cannot match anything against: $b" );
 }
 
 PP
 
-sub _generate_M
-{
+sub _generate_M {
 	require Sub::Infix;
-	&Sub::Infix::infix(\&match);
+	&Sub::Infix::infix( \&match );
 }
 
 1;
@@ -91,8 +87,7 @@ match::simple - simplified clone of smartmatch operator
    use v5.10;
    use match::simple;
    
-   if ($this |M| $that)
-   {
+   if ( $this |M| $that ) {
       say "$this matches $that";
    }
 
@@ -133,8 +128,9 @@ argument.
 
 =item *
 
-If the right hand side is an object which overloads C<~~>, then a true
-smart match is performed.
+If the right hand side is an object which overloads C<< ~~ >>, then a true
+smart match is performed. (Note: this will return false if your version
+of Perl doesn't have smart match support!)
 
 =item *
 
@@ -154,8 +150,7 @@ export a more normal function:
    use v5.10;
    use match::simple qw(match);
    
-   if (match($this, $that))
-   {
+   if ( match($this, $that) ) {
       say "$this matches $that";
    }
 
@@ -210,7 +205,7 @@ Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
 
 =head1 COPYRIGHT AND LICENCE
 
-This software is copyright (c) 2013-2014, 2017 by Toby Inkster.
+This software is copyright (c) 2013-2014, 2017, 2022 by Toby Inkster.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
