@@ -6,3 +6,8 @@ cpan:TOBYINK
 	:name  "Toby Inkster";
 	:mbox  <mailto:tobyink@cpan.org>.
 
+cpan:BRICKER
+	:name  "Bill Ricker".
+
+`match-simple`
+	doap:helper cpan:BRICKER.

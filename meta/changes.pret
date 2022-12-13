@@ -78,3 +78,11 @@
 			dcs:fixes RT#117345;
 		];
 	].
+
+`match-simple 0.011 cpan:TOBYINK`
+	issued  2022-12-13;
+	changeset [
+		item "Use match::simple::XS 0.002 instead of match::simple::XS 0.001."^^Update;
+		item "Overloaded ~~ copes better on versions of Perl which don't support the ~~ operator."^^Update;
+		item "General distribution modernization, etc."^^Update;
+	].
