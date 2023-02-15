@@ -228,7 +228,7 @@ L<http://rt.cpan.org/Dist/Display.html?Queue=match-simple>.
 
 =head1 SEE ALSO
 
-L<match::smart>.
+L<match::smart>, L<match::simple::sugar>.
 
 This module uses L<Exporter::Tiny>.
 
