@@ -44,4 +44,14 @@ for ( '1.0' ) {
 	fail;
 }
 
+{
+	my $e = exception {
+		for ( '1.0' ) {
+			when 1;
+			when '1.0';
+		}
+	};
+	like $e, qr/when: expects then/;
+}
+
 done_testing;
