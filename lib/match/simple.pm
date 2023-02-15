@@ -224,7 +224,7 @@ encourages match::simple to use the pure Perl backend.
 =head1 BUGS
 
 Please report any bugs to
-L<http://rt.cpan.org/Dist/Display.html?Queue=match-simple>.
+L<https://github.com/tobyink/p5-match-simple/issues>.
 
 =head1 SEE ALSO
 
