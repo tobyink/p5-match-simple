@@ -52,7 +52,7 @@ sub _check_coderef {
 	require B;
 	local *B::OP::__match_simple_sugar_callback = sub {
 		my $name = $_[0]->name;
-		warn "Block appears to contain a `$name` statement; not suitable for use with when/then"
+		croak "Block appears to contain a `$name` statement; not suitable for use with when/then"
 			if match $name, [ qw/ wantarray return redo last next / ];
 		return;
 	};
