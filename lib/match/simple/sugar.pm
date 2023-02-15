@@ -11,7 +11,7 @@ use match::simple qw( match );
 
 BEGIN {
 	$match::simple::sugar::AUTHORITY = 'cpan:TOBYINK';
-	$match::simple::sugar::VERSION   = '0.011';
+	$match::simple::sugar::VERSION   = '0.012';
 	my $strict = 0;
 	$ENV{$_} && $strict++ for qw(
 		EXTENDED_TESTING

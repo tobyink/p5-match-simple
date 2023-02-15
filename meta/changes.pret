@@ -86,3 +86,9 @@
 		item "Overloaded ~~ copes better on versions of Perl which don't support the ~~ operator."^^Update;
 		item "General distribution modernization, etc."^^Update;
 	].
+
+`match-simple 0.011 cpan:TOBYINK`
+	issued  2023-02-15;
+	changeset [
+		item "Bundle match::simple::sugar with some useful extras."^^Addition;
+	].
