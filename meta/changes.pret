@@ -87,7 +87,7 @@
 		item "General distribution modernization, etc."^^Update;
 	].
 
-`match-simple 0.011 cpan:TOBYINK`
+`match-simple 0.012 cpan:TOBYINK`
 	issued  2023-02-15;
 	changeset [
 		item "Bundle match::simple::sugar with some useful extras."^^Addition;
